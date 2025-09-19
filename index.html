@@ -1,0 +1,171 @@
+Dijiste:
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Blog de Sueños y Deseos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f5ff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #6a0dad;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        main {
+            width: 80%;
+            margin: 20px auto;
+            text-align: center;
+        }
+        h1, h2 {
+            color: #6a0dad;
+        }
+        .botones {
+            margin: 20px 0;
+        }
+        .botones button {
+            background: #6a0dad;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .botones button:hover {
+            background: #530a9a;
+        }
+        .entrada {
+            display: none;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            background: #fff;
+            text-align: left;
+        }
+        form {
+            background: #e8d6ff;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+        input[type="submit"], .extra-btn {
+            background: #6a0dad;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"]:hover, .extra-btn:hover {
+            background: #530a9a;
+        }
+        .mensaje {
+            color: green;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🌙 Mi Blog de Sueños y Deseos ✨</h1>
+        <p>Elige en qué apartado quieres escribir</p>
+    </header>
+    
+    <main>
+        <!-- Botones -->
+        <div class="botones">
+            <button onclick="mostrar('viaje')">✈️ Sueño de Viaje</button>
+            <button onclick="mostrar('peso')">⚖️ Sueño de Peso</button>
+            <button onclick="mostrar('deseo')">🌟 Deseo Personal</button>
+        </div>
+
+        <!-- Apartado Sueño de Viaje -->
+        <section id="viaje" class="entrada">
+            <h2>✈️ Sueño de Viaje</h2>
+            <form onsubmit="guardar(event, 'viajeTxt')">
+                <textarea id="viajeTxt" placeholder="Ej: Quiero viajar a París..."></textarea><br>
+                <input type="submit" value="Guardar Viaje">
+                <button type="button" class="extra-btn" onclick="recuperar('viajeTxt')">Seguir escribiendo</button>
+                <p class="mensaje" id="msg-viaje"></p>
+            </form>
+        </section>
+
+        <!-- Apartado Sueño de Peso -->
+        <section id="peso" class="entrada">
+            <h2>⚖️ Sueño de Peso</h2>
+            <form onsubmit="guardar(event, 'pesoTxt')">
+                <textarea id="pesoTxt" placeholder="Ej: Quiero bajar 5 kg..."></textarea><br>
+                <input type="submit" value="Guardar Meta">
+                <button type="button" class="extra-btn" onclick="recuperar('pesoTxt')">Seguir escribiendo</button>
+                <p class="mensaje" id="msg-peso"></p>
+            </form>
+        </section>
+
+        <!-- Apartado Deseo Personal -->
+        <section id="deseo" class="entrada">
+            <h2>🌟 Deseo Personal</h2>
+            <form onsubmit="guardar(event, 'deseoTxt')">
+                <textarea id="deseoTxt" placeholder="Ej: Deseo comprar una casa..."></textarea><br>
+                <input type="submit" value="Guardar Deseo">
+                <button type="button" class="extra-btn" onclick="recuperar('deseoTxt')">Seguir escribiendo</button>
+                <p class="mensaje" id="msg-deseo"></p>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // Función para mostrar la sección seleccionada
+        function mostrar(seccion) {
+            document.querySelectorAll('.entrada').forEach(function(div) {
+                div.style.display = 'none';
+            });
+            document.getElementById(seccion).style.display = 'block';
+        }
+
+        // Guardar en localStorage
+        function guardar(event, idCampo) {
+            event.preventDefault();
+            let texto = document.getElementById(idCampo).value;
+            localStorage.setItem(idCampo, texto);
+            document.getElementById("msg-" + idCampo.replace("Txt", "")).innerText = "✅ Guardado correctamente";
+        }
+
+        // Recuperar texto guardado en localStorage
+        function recuperar(idCampo) {
+            let guardado = localStorage.getItem(idCampo);
+            if (guardado) {
+                document.getElementById(idCampo).value = guardado;
+                alert("📌 Se recuperó lo último que guardaste.");
+            } else {
+                alert("⚠️ No hay nada guardado aún.");
+            }
+        }
+
+        // Al cargar la página, rellenar si ya hay algo guardado
+        window.onload = function() {
+            ["viajeTxt", "pesoTxt", "deseoTxt"].forEach(id => {
+                let guardado = localStorage.getItem(id);
+                if (guardado) {
+                    document.getElementById(id).value = guardado;
+                }
+            });
+        };
+    </script>
+</body>
+</html>
